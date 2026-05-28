@@ -146,7 +146,10 @@ function initials(string $name): string {
       </p>
 
       <div class="hero-cta">
-
+        <a href="https://wa.me/5513974040563" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+          Agendar Consulta
+        </a>
         <a href="#sobre" class="btn btn-outline btn-lg">
           <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           Saiba Mais
@@ -189,7 +192,7 @@ function initials(string $name): string {
     <div class="sobre-grid">
       <div class="sobre-img-wrap reveal">
         <img
-          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=700&q=80"
+          src="images/hero.JPG"
           alt="Equipe médica do Hospital Santo Expedito"
           loading="lazy"
         >
@@ -203,14 +206,14 @@ function initials(string $name): string {
         <h2>Comprometidos com a sua <span>saúde e bem-estar</span></h2>
         <p>
           Fundado em 2001, o Hospital Santo Expedito &mdash; APAS nasceu com a missão de oferecer
-          atendimento médico humano, acessível e de excelência para toda a comunidade.
+          atendimento médico humano, acessível e de excelência para todos os Associados APAS.
           Ao longo de 25 anos, construímos uma trajetória baseada na confiança dos pacientes,
           na qualificação de nossa equipe e no constante investimento em infraestrutura e tecnologia.
         </p>
         <p>
-          Contamos com mais de 150 médicos especialistas, 12 especialidades médicas,
-          centro cirúrgico moderno, UTI adulto e neonatal, além de unidades de diagnóstico por imagem
-          e laboratório próprio.
+          Contamos com médicos especialistas, em várias especialidades médicas,
+          centro cirúrgico moderno, UTI adulto, além de diagnóstico por imagem
+          e laboratório.
         </p>
 
         <div class="mvv-cards">
@@ -421,7 +424,7 @@ function initials(string $name): string {
       <div class="footer-brand">
         <img src="images/hse.png" alt="Logo Hospital Santo Expedito - APAS" class="footer-logo-img">
         <strong><?= esc(SITE_NAME) ?></strong>
-        <span style="font-size:.8rem;color:rgba(255,255,255,.5);">CNPJ: 12.345.678/0001-99</span>
+        <span style="font-size:.8rem;color:rgba(255,255,255,.5);">CNPJ: 00.034.259/0001-53</span>
         <p>
           Comprometidos com a saúde, o bem-estar e a qualidade de vida de nossos pacientes
           há mais de 25 anos.

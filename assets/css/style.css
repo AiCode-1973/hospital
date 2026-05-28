@@ -124,11 +124,11 @@ ul { list-style: none; }
 }
 
 .footer-logo-img {
-  height: 48px;
+  height: 80px;
   width: auto;
   object-fit: contain;
   margin-bottom: 14px;
-  filter: brightness(0) invert(1);
+  filter: none;
 }
 
 /* ---------- Navbar ---------- */
