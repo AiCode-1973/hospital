@@ -163,7 +163,7 @@ function initials(string $name): string {
           <span>Anos de Experiência</span>
         </div>
         <div class="hero-stat">
-          <strong data-count="150" data-suffix="+">150+</strong>
+          <strong data-count="50" data-suffix="+">150+</strong>
           <span>Médicos Especialistas</span>
         </div>
         <div class="hero-stat">
