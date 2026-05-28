@@ -69,6 +69,8 @@ function initials(string $name): string {
   <meta property="og:title"       content="Hospital Santo Expedito - APAS">
   <meta property="og:description" content="Cuidando da sua saúde com excelência, tecnologia e humanização.">
   <meta property="og:type"        content="website">
+  <meta property="og:url"         content="<?= esc(SITE_URL) ?>">
+  <meta property="og:image"       content="<?= esc(SITE_URL) ?>/images/hospital.JPG">
 
   <title>Hospital Santo Expedito - APAS | Cuidando da sua Saúde</title>
 
