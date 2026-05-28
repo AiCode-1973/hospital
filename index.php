@@ -245,8 +245,9 @@ function initials(string $name): string {
 <section id="especialidades" aria-label="Especialidades médicas">
   <div class="container">
     <div class="section-title reveal">
-      <h2>Nossas <span>Especialidades</span></h2>
+      <h2>Algumas <span>Especialidades</span></h2>
       <p>Contamos com uma ampla gama de especialidades médicas para cuidar de toda a sua família.</p>
+      <p>Saiba mais através do nosso telefone ou WhatsApp.</p>
     </div>
     <div class="section-divider reveal"></div>
 
