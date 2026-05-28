@@ -149,7 +149,7 @@ function initials(string $name): string {
       <div class="hero-cta">
         <a href="https://wa.me/5513974040563" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
           <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-          Agendar Consulta
+          Agendar Consultas e Exames
         </a>
         <a href="#sobre" class="btn btn-outline btn-lg">
           <i class="fa-solid fa-circle-info" aria-hidden="true"></i>

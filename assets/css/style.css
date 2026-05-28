@@ -981,10 +981,7 @@ ul { list-style: none; }
   .nav-menu     { display: none; }
   .nav-toggle   { display: flex; }
   .nav-logo-img { height: 52px; }
-
-  /* Botão telefone: esconde texto, mantém ícone */
-  .nav-actions .btn { padding: 9px 12px; font-size: .82rem; }
-  .nav-actions .btn .nav-phone-text { display: none; }
+  .nav-actions  { display: none; }
 
   /* Menu mobile aberto */
   .nav-menu.open {
