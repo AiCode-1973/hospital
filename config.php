@@ -5,7 +5,7 @@
  * Hospital Santo Expedito - APAS
  */
 
-define('DB_HOST', '69.49.241.25');
+define('DB_HOST', 'localhost');
 define('DB_NAME', 'apassa73__hospital_santo_expedito');
 define('DB_USER', 'apassa73__hospital_santo_expedito');
 define('DB_PASS', 'Dema@1973');
