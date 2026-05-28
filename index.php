@@ -9,81 +9,6 @@ declare(strict_types=1);
 require_once __DIR__ . '/config.php';
 
 // ============================================================
-// Processamento do formulário de agendamento (POST)
-// ============================================================
-$formMsg   = '';
-$formType  = '';
-$formData  = []; // repopular campos em caso de erro
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'agendar') {
-
-    // Coleta e sanitização básica dos dados de entrada
-    $formData['nome']            = trim($_POST['nome']            ?? '');
-    $formData['email']           = trim($_POST['email']           ?? '');
-    $formData['telefone']        = trim($_POST['telefone']        ?? '');
-    $formData['especialidade_id']= (int) ($_POST['especialidade_id'] ?? 0);
-    $formData['mensagem']        = trim($_POST['mensagem']        ?? '');
-    $formData['data_desejada']   = trim($_POST['data_desejada']   ?? '');
-
-    // --- Validação server-side ---
-    $errors = [];
-
-    if (mb_strlen($formData['nome']) < 3) {
-        $errors[] = 'Nome deve ter pelo menos 3 caracteres.';
-    }
-    if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Informe um e-mail válido.';
-    }
-    $telDigits = preg_replace('/\D/', '', $formData['telefone']);
-    if (!$telDigits || mb_strlen($telDigits) < 10) {
-        $errors[] = 'Informe um telefone válido com DDD.';
-    }
-    if ($formData['especialidade_id'] <= 0) {
-        $errors[] = 'Selecione uma especialidade.';
-    }
-    if (!$formData['data_desejada'] || !strtotime($formData['data_desejada'])) {
-        $errors[] = 'Informe uma data válida.';
-    } elseif (strtotime($formData['data_desejada']) < strtotime('today')) {
-        $errors[] = 'A data desejada deve ser hoje ou futura.';
-    }
-
-    if (empty($errors)) {
-        try {
-            $pdo  = getDB();
-            // Verifica se especialidade existe
-            $stmt = $pdo->prepare('SELECT id FROM especialidades WHERE id = ? AND ativo = 1');
-            $stmt->execute([$formData['especialidade_id']]);
-            if (!$stmt->fetch()) {
-                $errors[] = 'Especialidade inválida.';
-            } else {
-                $ins = $pdo->prepare(
-                    'INSERT INTO agendamentos (nome, email, telefone, especialidade_id, mensagem, data_desejada)
-                     VALUES (:nome, :email, :telefone, :especialidade_id, :mensagem, :data_desejada)'
-                );
-                $ins->execute([
-                    ':nome'             => $formData['nome'],
-                    ':email'            => $formData['email'],
-                    ':telefone'         => $telDigits,
-                    ':especialidade_id' => $formData['especialidade_id'],
-                    ':mensagem'         => $formData['mensagem'],
-                    ':data_desejada'    => $formData['data_desejada'],
-                ]);
-                $formMsg  = 'Agendamento solicitado com sucesso! Em breve nossa equipe entrará em contato para confirmação.';
-                $formType = 'success';
-                $formData = []; // limpa campos após sucesso
-            }
-        } catch (PDOException $e) {
-            error_log('Erro ao salvar agendamento: ' . $e->getMessage());
-            $formMsg  = 'Ocorreu um erro ao processar seu agendamento. Tente novamente.';
-            $formType = 'error';
-        }
-    } else {
-        $formMsg  = implode('<br>', $errors);
-        $formType = 'error';
-    }
-}
-
-// ============================================================
 // Busca de dados do banco para renderização
 // ============================================================
 $especialidades = [];
@@ -179,7 +104,6 @@ function initials(string $name): string {
       <a href="#especialidades"class="nav-link">Especialidades</a>
       <a href="#equipe"        class="nav-link">Equipe</a>
       <a href="#convenios"     class="nav-link">Convênios</a>
-      <a href="#contato"       class="nav-link">Contato</a>
     </nav>
 
     <!-- Ações -->
@@ -188,10 +112,7 @@ function initials(string $name): string {
         <i class="fa-solid fa-phone" aria-hidden="true"></i>
         <?= esc(SITE_PHONE) ?>
       </a>
-      <a href="#contato" class="btn btn-primary">
-        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-        Agendar Consulta
-      </a>
+
     </div>
 
     <!-- Hamburguer mobile -->
@@ -225,10 +146,7 @@ function initials(string $name): string {
       </p>
 
       <div class="hero-cta">
-        <a href="#contato" class="btn btn-primary btn-lg">
-          <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-          Agendar Consulta
-        </a>
+
         <a href="#sobre" class="btn btn-outline btn-lg">
           <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           Saiba Mais
@@ -437,7 +355,7 @@ function initials(string $name): string {
     <?php endif; ?>
 
     <p class="text-center mt-4 reveal" style="color:var(--gray-text);font-size:.9rem;">
-      Não encontrou seu plano? <a href="#contato" style="color:var(--primary);font-weight:600;">Entre em contato</a> para verificar.
+      Não encontrou seu plano? Entre em contato pelo telefone <strong><?= esc(SITE_PHONE) ?></strong> para verificar.
     </p>
   </div>
 </section>
@@ -476,187 +394,6 @@ function initials(string $name): string {
       Nenhum depoimento cadastrado no momento.
     </p>
     <?php endif; ?>
-  </div>
-</section>
-
-<!-- ============================================================
-     FORMULÁRIO DE CONTATO / AGENDAMENTO
-     ============================================================ -->
-<section id="contato" aria-label="Contato e agendamento">
-  <div class="container">
-    <div class="section-title reveal">
-      <h2>Agende sua <span>Consulta</span></h2>
-      <p>Preencha o formulário e nossa equipe entrará em contato para confirmar seu agendamento.</p>
-    </div>
-    <div class="section-divider reveal"></div>
-
-    <div class="contato-grid">
-      <!-- Informações de contato -->
-      <div class="contato-info reveal">
-        <h3>Fale <span>conosco</span></h3>
-        <p>Estamos disponíveis para tirar dúvidas, agendar consultas e oferecer o suporte que você precisa.</p>
-
-        <div class="info-items">
-          <div class="info-item">
-            <div class="info-icon" aria-hidden="true"><i class="fa-solid fa-location-dot"></i></div>
-            <div>
-              <strong>Endereço</strong>
-              <span><?= esc(SITE_ADDRESS) ?></span>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon" aria-hidden="true"><i class="fa-solid fa-phone"></i></div>
-            <div>
-              <strong>Telefone</strong>
-              <span><a href="tel:<?= preg_replace('/\D/', '', SITE_PHONE) ?>"><?= esc(SITE_PHONE) ?></a></span>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon" aria-hidden="true"><i class="fa-brands fa-whatsapp"></i></div>
-            <div>
-              <strong>WhatsApp</strong>
-              <span><a href="https://wa.me/<?= esc(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer">(11) 93456-7890</a></span>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></div>
-            <div>
-              <strong>E-mail</strong>
-              <span><a href="mailto:<?= esc(SITE_EMAIL) ?>"><?= esc(SITE_EMAIL) ?></a></span>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon" aria-hidden="true"><i class="fa-solid fa-clock"></i></div>
-            <div>
-              <strong>Horário de Atendimento</strong>
-              <span>Seg–Sex: 7h às 20h<br>Sáb: 8h às 14h<br>Emergência: 24h</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="social-links" aria-label="Redes sociais">
-          <a href="#" class="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-          </a>
-          <a href="#" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Formulário -->
-      <div class="form-card reveal">
-        <h3><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Solicitar <span>Agendamento</span></h3>
-
-        <?php if ($formMsg): ?>
-        <div class="alert alert-<?= esc($formType) ?>" role="alert" data-auto-hide="6000">
-          <i class="fa-solid fa-<?= $formType === 'success' ? 'circle-check' : 'circle-exclamation' ?>" aria-hidden="true"></i>
-          <span><?= $formMsg /* já sanitizado via implode de msgs internas */ ?></span>
-        </div>
-        <?php endif; ?>
-
-        <form id="form-agendamento" method="POST" action="#contato" novalidate>
-          <input type="hidden" name="action" value="agendar">
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nome">Nome completo <span class="req" aria-hidden="true">*</span></label>
-              <input
-                type="text"
-                id="nome"
-                name="nome"
-                placeholder="Seu nome completo"
-                value="<?= esc($formData['nome'] ?? '') ?>"
-                required
-                autocomplete="name"
-                maxlength="150"
-              >
-              <span class="field-error" data-error="nome" role="alert"></span>
-            </div>
-            <div class="form-group">
-              <label for="email">E-mail <span class="req" aria-hidden="true">*</span></label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="seu@email.com"
-                value="<?= esc($formData['email'] ?? '') ?>"
-                required
-                autocomplete="email"
-                maxlength="255"
-              >
-              <span class="field-error" data-error="email" role="alert"></span>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telefone">Telefone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
-              <input
-                type="tel"
-                id="telefone"
-                name="telefone"
-                placeholder="(11) 99999-9999"
-                value="<?= esc($formData['telefone'] ?? '') ?>"
-                required
-                autocomplete="tel"
-                maxlength="20"
-              >
-              <span class="field-error" data-error="telefone" role="alert"></span>
-            </div>
-            <div class="form-group">
-              <label for="especialidade_id">Especialidade <span class="req" aria-hidden="true">*</span></label>
-              <select id="especialidade_id" name="especialidade_id" required>
-                <option value="">Selecione a especialidade</option>
-                <?php foreach ($especialidades as $esp): ?>
-                <option
-                  value="<?= (int)$esp['id'] ?>"
-                  <?= ((int)($formData['especialidade_id'] ?? 0) === (int)$esp['id']) ? 'selected' : '' ?>
-                >
-                  <?= esc($esp['nome']) ?>
-                </option>
-                <?php endforeach; ?>
-              </select>
-              <span class="field-error" data-error="especialidade_id" role="alert"></span>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="data_desejada">Data desejada <span class="req" aria-hidden="true">*</span></label>
-            <input
-              type="date"
-              id="data_desejada"
-              name="data_desejada"
-              value="<?= esc($formData['data_desejada'] ?? '') ?>"
-              required
-            >
-            <span class="field-error" data-error="data_desejada" role="alert"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="mensagem">Mensagem / Observações</label>
-            <textarea
-              id="mensagem"
-              name="mensagem"
-              placeholder="Descreva brevemente o motivo da consulta ou outras informações relevantes..."
-              maxlength="1000"
-            ><?= esc($formData['mensagem'] ?? '') ?></textarea>
-            <span class="field-error" data-error="mensagem" role="alert"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-lg form-submit">
-            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
-            Enviar Solicitação
-          </button>
-        </form>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -706,7 +443,7 @@ function initials(string $name): string {
           <li><a href="#equipe"><i class="fa-solid fa-chevron-right"></i> Equipe médica</a></li>
           <li><a href="#convenios"><i class="fa-solid fa-chevron-right"></i> Convênios</a></li>
           <li><a href="#depoimentos"><i class="fa-solid fa-chevron-right"></i> Depoimentos</a></li>
-          <li><a href="#contato"><i class="fa-solid fa-chevron-right"></i> Contato</a></li>
+
         </ul>
       </div>
 
@@ -745,7 +482,7 @@ function initials(string $name): string {
           </li>
           <li>
             <i class="fa-solid fa-clock" aria-hidden="true"></i>
-            Seg–Sex: 8h–17h | Administrativo<br>
+            Seg–Sex: 8h–17h Administrativo<br>
             <span style="padding-left:20px;">Emergência: 24h</span>
           </li>
         </ul>
