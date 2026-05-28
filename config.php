@@ -29,7 +29,7 @@ if ($_isProd) {
 } else {
     // ── LOCAL (XAMPP) ─────────────────────────────────────────
     define('DB_HOST',    'localhost');
-    define('DB_NAME',    'apassa73_hospital_santo_expedito');
+    define('DB_NAME',    'apassa73__hospital_santo_expedito');
     define('DB_USER',    'root');
     define('DB_PASS',    '');
 }
