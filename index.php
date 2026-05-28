@@ -101,20 +101,24 @@ function initials(string $name): string {
     </a>
 
     <!-- Menu desktop -->
-    <nav class="nav-menu" role="navigation" aria-label="Menu principal">
-      <a href="#sobre"         class="nav-link">Sobre</a>
-      <a href="#especialidades"class="nav-link">Especialidades</a>
-      <a href="#equipe"        class="nav-link">Equipe</a>
-      <a href="#convenios"     class="nav-link">Convênios</a>
+    <nav class="nav-menu" id="nav-menu-mobile" role="navigation" aria-label="Menu principal">
+      <a href="#sobre"          class="nav-link">Sobre</a>
+      <a href="#especialidades" class="nav-link">Especialidades</a>
+      <a href="#equipe"         class="nav-link">Equipe</a>
+      <a href="#convenios"      class="nav-link">Convênios</a>
+      <!-- Link telefone visível apenas no menu mobile aberto -->
+      <a href="tel:<?= preg_replace('/\D/', '', SITE_PHONE) ?>" class="nav-phone-link">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        <?= esc(SITE_PHONE) ?>
+      </a>
     </nav>
 
     <!-- Ações -->
     <div class="nav-actions">
-      <a href="tel:<?= preg_replace('/\D/', '', SITE_PHONE) ?>" class="btn btn-outline" style="padding:9px 18px;font-size:.82rem;">
+      <a href="tel:<?= preg_replace('/\D/', '', SITE_PHONE) ?>" class="btn btn-outline" aria-label="Ligar para <?= esc(SITE_PHONE) ?>">
         <i class="fa-solid fa-phone" aria-hidden="true"></i>
-        <?= esc(SITE_PHONE) ?>
+        <span class="nav-phone-text"><?= esc(SITE_PHONE) ?></span>
       </a>
-
     </div>
 
     <!-- Hamburguer mobile -->
