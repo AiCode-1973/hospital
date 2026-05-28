@@ -1029,6 +1029,29 @@ ul { list-style: none; }
   #convenios,
   #depoimentos { padding: 64px 0; }
 
+  /* — Especialidades: cards horizontais — */
+  .esp-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .esp-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 14px 12px;
+    gap: 12px;
+  }
+  .esp-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin: 0;
+  }
+  .esp-card h3 { font-size: .88rem; margin-bottom: 4px; }
+  .esp-card p  { font-size: .75rem; line-height: 1.4; }
+
   /* — Sobre — */
   .mvv-cards { grid-template-columns: 1fr; }
   .sobre-badge { right: 0; bottom: -20px; }
@@ -1063,13 +1086,17 @@ ul { list-style: none; }
   .hero-stat strong { font-size: 1.5rem; }
 
   /* — Grids — */
-  .esp-grid  { grid-template-columns: 1fr 1fr; }
+  .esp-grid  { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
   .conv-grid { grid-template-columns: repeat(2, 1fr); }
   .mvv-cards { grid-template-columns: 1fr; }
 
+  /* — Especialidades: 1 coluna, ícone menor — */
+  .esp-card  { padding: 14px 12px; gap: 14px; }
+  .esp-icon  { width: 44px; height: 44px; font-size: 1.1rem; }
+  .esp-card h3 { font-size: .9rem; }
+
   /* — Cards — */
-  .esp-card  { padding: 24px 16px; }
   .dep-card  { padding: 20px; }
   .form-card { padding: 24px 18px; }
 
@@ -1091,6 +1118,7 @@ ul { list-style: none; }
   .hero-stat strong   { font-size: 1.3rem; }
   .hero-cta .btn      { font-size: .88rem; padding: 13px 20px; }
   .esp-grid           { grid-template-columns: 1fr; }
+  .esp-icon           { width: 40px; height: 40px; font-size: 1rem; }
   .conv-grid          { grid-template-columns: 1fr 1fr; }
   .section-title h2   { font-size: 1.4rem; }
   .mvv-card           { padding: 16px 12px; }
