@@ -1,0 +1,8 @@
+# Protege arquivos internos de acesso direto via navegador
+<FilesMatch "^(_header|_footer|auth)\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Impede listagem de diretório
+Options -Indexes

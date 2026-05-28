@@ -225,7 +225,7 @@ function initials(string $name): string {
           <div class="mvv-card">
             <i class="fa-solid fa-eye" aria-hidden="true"></i>
             <h4>Visão</h4>
-            <p>Ser referência nacional em saúde, reconhecido pela excelência e inovação constante.</p>
+            <p>Ser referência em saúde, reconhecido pela excelência e inovação constante.</p>
           </div>
           <div class="mvv-card">
             <i class="fa-solid fa-star" aria-hidden="true"></i>
