@@ -106,11 +106,6 @@ function initials(string $name): string {
       <a href="#especialidades" class="nav-link">Especialidades</a>
       <a href="#equipe"         class="nav-link">Equipe</a>
       <a href="#convenios"      class="nav-link">Convênios</a>
-      <!-- Link telefone visível apenas no menu mobile aberto -->
-      <a href="tel:<?= preg_replace('/\D/', '', SITE_PHONE) ?>" class="nav-phone-link">
-        <i class="fa-solid fa-phone" aria-hidden="true"></i>
-        <?= esc(SITE_PHONE) ?>
-      </a>
     </nav>
 
     <!-- Ações -->

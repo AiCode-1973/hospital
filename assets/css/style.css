@@ -216,8 +216,7 @@ ul { list-style: none; }
   font-size: .875rem;
 }
 
-/* Link telefone dentro do menu mobile — oculto no desktop */
-.nav-phone-link { display: none; }
+
 
 /* Hamburger */
 .nav-toggle {
@@ -1012,19 +1011,6 @@ ul { list-style: none; }
   .nav-menu.open a.active {
     background: var(--primary-light);
     color: var(--primary);
-  }
-  /* Link telefone dentro do menu mobile */
-  .nav-menu.open .nav-phone-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--primary) !important;
-    background: var(--primary-light) !important;
-    padding: 13px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-top: 8px;
-    border-top: 1px solid var(--gray-mid);
   }
 
   /* — Hero — */
