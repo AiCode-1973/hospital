@@ -5,10 +5,13 @@
  * Hospital Santo Expedito - APAS
  */
 
+// --- Ambiente: troque os valores conforme o ambiente ---
+// LOCAL (XAMPP):  DB_USER = 'root', DB_PASS = ''
+// PRODUCAO (cPanel): DB_USER = 'apassa73__hospital_santo_expedito', DB_PASS = 'Dema@1973'
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'apassa73__hospital_santo_expedito');
-define('DB_USER', 'apassa73__hospital_santo_expedito');
-define('DB_PASS', 'Dema@1973');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 define('SITE_NAME', 'Hospital Santo Expedito - APAS');
