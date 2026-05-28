@@ -737,7 +737,7 @@ function initials(string $name): string {
           </li>
           <li>
             <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-            <a href="https://wa.me/<?= esc(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer">(11) 93456-7890</a>
+            <a href="https://wa.me/<?= esc(SITE_WHATSAPP) ?>" target="_blank" rel="noopener noreferrer">(13) 97404-0563</a>
           </li>
           <li>
             <i class="fa-solid fa-envelope" aria-hidden="true"></i>
