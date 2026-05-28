@@ -23,8 +23,8 @@ if ($_isProd) {
     // ── PRODUÇÃO (cPanel — hsesantos.com.br) ──────────────────
     // 127.0.0.1 força TCP no cPanel e evita problemas com socket Unix
     define('DB_HOST',    '69.49.241.21');
-    define('DB_NAME',    'apassa73__hospital_santo_expedito');
-    define('DB_USER',    'apassa73__hospital_santo_expedito');
+    define('DB_NAME',    'apassa73_hospital_santo_expedito');
+    define('DB_USER',    'apassa73_hospital_santo_expedito');
     define('DB_PASS',    'Dema@1973');
 } else {
     // ── LOCAL (XAMPP) ─────────────────────────────────────────
