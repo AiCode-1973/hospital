@@ -22,7 +22,7 @@ $_isProd = !in_array($_host, ['localhost', '127.0.0.1', '::1'], true)
 if ($_isProd) {
     // ── PRODUÇÃO (cPanel — hsesantos.com.br) ──────────────────
     // 127.0.0.1 força TCP no cPanel e evita problemas com socket Unix
-    define('DB_HOST',    '127.0.0.1');
+    define('DB_HOST',    '69.49.241.25');
     define('DB_NAME',    'apassa73__hospital_santo_expedito');
     define('DB_USER',    'apassa73__hospital_santo_expedito');
     define('DB_PASS',    'Dema@1973');
