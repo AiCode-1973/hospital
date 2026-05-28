@@ -1011,7 +1011,7 @@ ul { list-style: none; }
   }
 
   /* — Hero — */
-  #hero { padding: 88px 0 56px; }
+  #hero { padding: 88px 0 110px; min-height: auto; }
   .hero-content { max-width: 100%; }
   .hero-cta { flex-direction: column; }
   .hero-cta .btn { width: 100%; justify-content: center; }
@@ -1080,7 +1080,7 @@ ul { list-style: none; }
   .nav-logo-img   { height: 44px; }
 
   /* — Hero — */
-  #hero { padding: 72px 0 48px; }
+  #hero { padding: 72px 0 100px; }
   .hero-badge   { font-size: .72rem; padding: 5px 12px; }
   .hero-stats   { gap: 14px 12px; }
   .hero-stat strong { font-size: 1.5rem; }
