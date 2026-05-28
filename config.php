@@ -13,15 +13,16 @@
 // ============================================================
 $_host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $_isProd = !in_array($_host, ['localhost', '127.0.0.1', '::1'], true)
-           && !str_starts_with($_host, '192.168.')
-           && !str_ends_with($_host, '.local');
+           && strpos($_host, '192.168.') !== 0
+           && substr($_host, -6) !== '.local';
 
 // ============================================================
 // Banco de dados
 // ============================================================
 if ($_isProd) {
     // ── PRODUÇÃO (cPanel — hsesantos.com.br) ──────────────────
-    define('DB_HOST',    'localhost');
+    // 127.0.0.1 força TCP no cPanel e evita problemas com socket Unix
+    define('DB_HOST',    '127.0.0.1');
     define('DB_NAME',    'apassa73__hospital_santo_expedito');
     define('DB_USER',    'apassa73__hospital_santo_expedito');
     define('DB_PASS',    'Dema@1973');
@@ -51,7 +52,7 @@ define('SITE_EMAIL',    'centraldeatendimentoaocliente@apassantos.com.br');
 define('SITE_PHONE',    '(13) 3226-5000');
 define('SITE_WHATSAPP', '5513974040563');
 define('SITE_ADDRESS',  'Rua Carvalho Mendonça, 335 - Vila Belmiro, Santos - SP, 011070-101');
-define('GOOGLE_MAPS_URL', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3646.199569938959!2d-46.33729502487824!3d-23.95338207853245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce036deb1d80b9%3A0xc99bd7367c894f81!2sR.%20Carvalho%20de%20Mendon%C3%A7a%2C%20335%20-%20Vila%20Belmiro%2C%20Santos%20-%20SP%2C%2011070-101!5e0!3m2!1spt-BR!2sbr!4v1779973707408!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade');
+define('GOOGLE_MAPS_URL', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3646.199569938959!2d-46.33729502487824!3d-23.95338207853245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce036deb1d80b9%3A0xc99bd7367c894f81!2sR.%20Carvalho%20de%20Mendon%C3%A7a%2C%20335%20-%20Vila%20Belmiro%2C%20Santos%20-%20SP%2C%2011070-101!5e0!3m2!1spt-BR!2sbr!4v1779973707408!5m2!1spt-BR!2sbr');
 
 // ============================================================
 // Configurações de erro por ambiente
@@ -84,8 +85,14 @@ function getDB(): PDO {
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            // Em produção, logue o erro e exiba mensagem genérica
-            error_log('Erro de conexão: ' . $e->getMessage());
+            // Grava erro detalhado em arquivo de log
+            $logDir = __DIR__ . '/logs';
+            if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
+            $logLine = '[' . date('Y-m-d H:i:s') . '] '
+                . 'Host=' . DB_HOST . ' DB=' . DB_NAME . ' User=' . DB_USER
+                . ' | ' . $e->getMessage() . PHP_EOL;
+            @file_put_contents($logDir . '/db_error.log', $logLine, FILE_APPEND | LOCK_EX);
+            error_log('DB Connection Error: ' . $e->getMessage());
             die('Serviço temporariamente indisponível. Tente novamente mais tarde.');
         }
     }

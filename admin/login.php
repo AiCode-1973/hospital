@@ -112,9 +112,9 @@ $csrf = csrfToken();
       </button>
     </form>
 
-    <p class="login-default">
+    <!--<p class="login-default">
       Credenciais padrão: <strong>admin</strong> / <strong>Admin@2024</strong>
-    </p>
+    </p>-->
   </div>
 
 </body>
