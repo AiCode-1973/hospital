@@ -112,6 +112,25 @@ ul { list-style: none; }
 }
 .btn-lg { padding: 16px 36px; font-size: 1.05rem; }
 
+.nav-logo-img {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: filter var(--transition);
+}
+#navbar.scrolled .nav-logo-img {
+  filter: none;
+}
+
+.footer-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 14px;
+  filter: brightness(0) invert(1);
+}
+
 /* ---------- Navbar ---------- */
 #navbar {
   position: fixed;
@@ -225,7 +244,7 @@ ul { list-style: none; }
   min-height: 100vh;
   background:
     linear-gradient(135deg, rgba(0,64,138,.88) 0%, rgba(0,87,168,.70) 60%, rgba(0,168,150,.50) 100%),
-    url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1600&q=80') center/cover no-repeat;
+    url('../../images/hospital.JPG') center/cover no-repeat;
   display: flex;
   align-items: center;
   padding: 120px 0 80px;

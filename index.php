@@ -170,13 +170,7 @@ function initials(string $name): string {
 
     <!-- Logo -->
     <a href="#hero" class="nav-logo" aria-label="<?= esc(SITE_NAME) ?>">
-      <div class="logo-icon" aria-hidden="true">
-        <i class="fa-solid fa-hospital"></i>
-      </div>
-      <div class="logo-text">
-        <strong>Hospital Santo Expedito</strong>
-        <span>APAS &mdash; Saúde &amp; Humanização</span>
-      </div>
+      <img src="images/hse.png" alt="Logo Hospital Santo Expedito - APAS" class="nav-logo-img">
     </a>
 
     <!-- Menu desktop -->
@@ -688,9 +682,7 @@ function initials(string $name): string {
 
       <!-- Brand -->
       <div class="footer-brand">
-        <div class="logo-icon-foot" aria-hidden="true">
-          <i class="fa-solid fa-hospital"></i>
-        </div>
+        <img src="images/hse.png" alt="Logo Hospital Santo Expedito - APAS" class="footer-logo-img">
         <strong><?= esc(SITE_NAME) ?></strong>
         <span style="font-size:.8rem;color:rgba(255,255,255,.5);">CNPJ: 12.345.678/0001-99</span>
         <p>
