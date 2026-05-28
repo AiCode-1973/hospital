@@ -432,9 +432,8 @@ function initials(string $name): string {
         </p>
         <div class="footer-social" aria-label="Redes sociais">
           <a href="#" aria-label="Facebook"  target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"   target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
-          <a href="#" aria-label="LinkedIn"  target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://www.instagram.com/hospitalsantoexpedito.apas?igsh=MXg5cHI1bHE4YXBvMg==" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+          
         </div>
       </div>
 
@@ -470,7 +469,7 @@ function initials(string $name): string {
         <ul>
           <li>
             <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-            <?= esc(SITE_ADDRESS) ?>
+            <span><?= esc(SITE_ADDRESS) ?></span>
           </li>
           <li>
             <i class="fa-solid fa-phone" aria-hidden="true"></i>

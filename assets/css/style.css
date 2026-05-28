@@ -852,6 +852,13 @@ ul { list-style: none; }
   gap: 10px;
   font-size: .85rem;
   color: rgba(255,255,255,.6);
+  min-width: 0;
+}
+.footer-contact li span,
+.footer-contact li a {
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 .footer-contact li i { color: var(--primary); margin-top: 2px; flex-shrink: 0; }
 .footer-social { display: flex; gap: 8px; margin-top: 18px; }
@@ -1101,7 +1108,7 @@ ul { list-style: none; }
   .form-card { padding: 24px 18px; }
 
   /* — Footer — */
-  .footer-contact li   { font-size: .82rem; }
+  .footer-contact li   { font-size: .82rem; word-break: break-word; overflow-wrap: break-word; }
   .footer-contact a    { word-break: break-all; }
   .footer-col ul li a  { font-size: .82rem; }
 
