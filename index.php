@@ -210,7 +210,7 @@ function initials(string $name): string {
     <div class="hero-content">
       <div class="hero-badge">
         <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
-        Referência em Saúde no Estado de SP
+        Referência em Saúde na Baixada Santista
       </div>
 
       <h1>
@@ -745,7 +745,7 @@ function initials(string $name): string {
           </li>
           <li>
             <i class="fa-solid fa-clock" aria-hidden="true"></i>
-            Seg–Sex: 7h–20h | Sáb: 8h–14h<br>
+            Seg–Sex: 8h–17h | Administrativo<br>
             <span style="padding-left:20px;">Emergência: 24h</span>
           </li>
         </ul>
