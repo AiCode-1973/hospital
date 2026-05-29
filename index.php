@@ -509,7 +509,8 @@ function initials(string $name): string {
     <!-- Bottom bar -->
     <div class="footer-bottom">
       <p>&copy; <?= date('Y') ?> <?= esc(SITE_NAME) ?>. Todos os direitos reservados.</p>
-      <p>
+      <p><a> Desenvolvido por: Setor de Tecnologia da Informação.</a></p>
+        <p>
         <a href="#">Política de Privacidade</a>
         &nbsp;|&nbsp;
         <a href="#">Termos de Uso</a>
