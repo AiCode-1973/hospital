@@ -63,6 +63,44 @@ try {
     error_log('Erro ao carregar dados: ' . $e->getMessage());
 }
 
+// ============================================================
+// Registra visita (silencioso — não bloqueia a página)
+// ============================================================
+try {
+    if (!isset($pdo)) $pdo = getDB();
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS visitas (
+            id          INT          AUTO_INCREMENT PRIMARY KEY,
+            ip_hash     VARCHAR(64)  NOT NULL,
+            dispositivo ENUM('desktop','mobile','tablet') DEFAULT 'desktop',
+            referrer    VARCHAR(500) NULL,
+            visitado_em TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_data (visitado_em),
+            INDEX idx_ip   (ip_hash)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+
+    $ip     = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0')[0]);
+    $ipHash = hash('sha256', $ip . 'hse_visit_2024');
+
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    if (preg_match('/iPad|Tablet/i', $ua)) {
+        $disp = 'tablet';
+    } elseif (preg_match('/Mobile|Android|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i', $ua)) {
+        $disp = 'mobile';
+    } else {
+        $disp = 'desktop';
+    }
+
+    $ref = !empty($_SERVER['HTTP_REFERER']) ? substr($_SERVER['HTTP_REFERER'], 0, 500) : null;
+
+    $pdo->prepare('INSERT INTO visitas (ip_hash, dispositivo, referrer) VALUES (?, ?, ?)')
+        ->execute([$ipHash, $disp, $ref]);
+
+} catch (PDOException $e) {
+    error_log('Visita não registrada: ' . $e->getMessage());
+}
+
 // Helper: retorna estrelas HTML
 function stars(int $n): string {
     $html = '';

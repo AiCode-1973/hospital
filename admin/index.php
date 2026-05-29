@@ -12,8 +12,9 @@ try {
     $dep  = (int) $pdo->query('SELECT COUNT(*) FROM depoimentos    WHERE ativo = 1')->fetchColumn();
     $avi  = (int) $pdo->query('SELECT COUNT(*) FROM avisos         WHERE ativo = 1')->fetchColumn();
     $enq  = (int) $pdo->query('SELECT COUNT(*) FROM enquete_votos')->fetchColumn();
+    $vis  = (int) $pdo->query("SELECT COUNT(*) FROM visitas WHERE DATE(visitado_em) = CURDATE()")->fetchColumn();
 } catch (\PDOException $e) {
-    $esp = $med = $conv = $dep = $avi = $enq = 0;
+    $esp = $med = $conv = $dep = $avi = $enq = $vis = 0;
 }
 
 $pageTitle = 'Dashboard';
@@ -61,6 +62,13 @@ require_once __DIR__ . '/_header.php';
     <div>
       <strong><?= $enq ?></strong>
       <span>Votos nas enquetes</span>
+    </div>
+  </div>
+  <div class="stat-card" style="background:#eff6ff;border:1px solid #bfdbfe;">
+    <div class="stat-icon blue"><i class="fa-solid fa-eye"></i></div>
+    <div>
+      <strong><?= $vis ?></strong>
+      <span>Visitas hoje</span>
     </div>
   </div>
 </div>

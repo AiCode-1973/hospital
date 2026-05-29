@@ -61,6 +61,12 @@ $flash = getFlash();
         <i class="fa-solid fa-poll-h"></i> Enquetes
       </a>
 
+      <div class="nav-section">Relat&oacute;rios</div>
+      <a href="visitas.php"
+         class="<?= basename($_SERVER['PHP_SELF']) === 'visitas.php' ? 'active' : '' ?>">
+        <i class="fa-solid fa-chart-line"></i> Visitas
+      </a>
+
       <div class="nav-section">Conta</div>
       <a href="senha.php"
          class="<?= basename($_SERVER['PHP_SELF']) === 'senha.php' ? 'active' : '' ?>">

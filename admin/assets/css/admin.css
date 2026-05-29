@@ -256,6 +256,8 @@ tbody tr:last-child td { border-bottom: none; }
 .btn-secondary:hover { background: #5a6268; }
 .btn-outline   { background: transparent; color: var(--primary); border-color: var(--primary); }
 .btn-outline:hover  { background: var(--primary); color: #fff; }
+.btn-warning   { background: #e67e22; color: #fff; border-color: #e67e22; }
+.btn-warning:hover  { background: #cf6d17; }
 .btn-sm   { padding: 5px 10px; font-size: .78rem; }
 .btn-icon { padding: 6px 8px; }
 
