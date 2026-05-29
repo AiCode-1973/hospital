@@ -524,12 +524,11 @@ function initials(string $name): string {
      ============================================================ -->
 <div
   id="modalAviso"
-  class="modal-overlay"
+  class="modal-overlay modal-hidden"
   role="dialog"
   aria-modal="true"
   aria-labelledby="modalAvisoTitulo"
   data-auto="<?= $aviso['exibir_auto'] ? '1' : '0' ?>"
-  style="display:none;"
 >
   <div class="modal-box">
     <button class="modal-close" id="modalAvisoFechar" aria-label="Fechar aviso">

@@ -15,13 +15,16 @@
   const btnAbrir  = document.getElementById('btnAbrirAviso');
   const btnFechar = document.getElementById('modalAvisoFechar');
 
+  var timerAutoAbrir = null;
+
   function abrir() {
     overlay.classList.remove('modal-hidden');
-    overlay.style.display = '';
     document.body.style.overflow = 'hidden';
   }
 
   function fechar() {
+    // Cancela auto-abertura se o usuário fechar antes do timer
+    if (timerAutoAbrir) { clearTimeout(timerAutoAbrir); timerAutoAbrir = null; }
     overlay.classList.add('modal-hidden');
     document.body.style.overflow = '';
     // guarda na sessão para não reabrir automaticamente
@@ -50,9 +53,7 @@
   try { jaVisto = sessionStorage.getItem('aviso_visto') === '1'; } catch(e) {}
 
   if (autoAbrir && !jaVisto) {
-    setTimeout(abrir, 800);
-  } else {
-    overlay.classList.add('modal-hidden');
+    timerAutoAbrir = setTimeout(abrir, 800);
   }
 })();
 

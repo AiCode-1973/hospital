@@ -138,14 +138,14 @@ ul { list-style: none; }
   background: rgba(0,0,0,.60);
   backdrop-filter: blur(3px);
   z-index: 99999;
-  display: flex !important;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   animation: fadeIn .25s ease;
 }
 .modal-overlay.modal-hidden {
-  display: none !important;
+  display: none;
 }
 @keyframes fadeIn {
   from { opacity: 0; }
