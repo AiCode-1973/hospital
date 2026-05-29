@@ -11,8 +11,9 @@ try {
     $conv = (int) $pdo->query('SELECT COUNT(*) FROM convenios      WHERE ativo = 1')->fetchColumn();
     $dep  = (int) $pdo->query('SELECT COUNT(*) FROM depoimentos    WHERE ativo = 1')->fetchColumn();
     $avi  = (int) $pdo->query('SELECT COUNT(*) FROM avisos         WHERE ativo = 1')->fetchColumn();
+    $enq  = (int) $pdo->query('SELECT COUNT(*) FROM enquete_votos')->fetchColumn();
 } catch (\PDOException $e) {
-    $esp = $med = $conv = $dep = $avi = 0;
+    $esp = $med = $conv = $dep = $avi = $enq = 0;
 }
 
 $pageTitle = 'Dashboard';
@@ -55,6 +56,13 @@ require_once __DIR__ . '/_header.php';
       <span>Avisos ativos</span>
     </div>
   </div>
+  <div class="stat-card">
+    <div class="stat-icon teal"><i class="fa-solid fa-check-to-slot"></i></div>
+    <div>
+      <strong><?= $enq ?></strong>
+      <span>Votos nas enquetes</span>
+    </div>
+  </div>
 </div>
 
 <div class="card">
@@ -66,6 +74,7 @@ require_once __DIR__ . '/_header.php';
     <a href="medicos.php?action=novo"        class="btn btn-success"><i class="fa-solid fa-plus"></i> Novo Médico</a>
     <a href="convenios.php?action=novo"      class="btn btn-outline"><i class="fa-solid fa-plus"></i> Novo Convênio</a>
     <a href="depoimentos.php?action=novo"    class="btn btn-secondary"><i class="fa-solid fa-plus"></i> Novo Depoimento</a>
+    <a href="enquetes.php?action=nova"        class="btn btn-outline"><i class="fa-solid fa-plus"></i> Nova Enquete</a>
   </div>
 </div>
 

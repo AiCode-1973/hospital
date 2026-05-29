@@ -203,6 +203,115 @@
 })();
 
 /* ============================================================
+   Enquete de satisfação (AJAX)
+   ============================================================ */
+(function initEnquete() {
+  var widget  = document.getElementById('enqueteWidget');
+  if (!widget) return;
+
+  var form       = document.getElementById('enqueteForm');
+  var resultado  = document.getElementById('enqueteResultado');
+  var msgEl      = document.getElementById('enqueteMsg');
+  var barrasEl   = document.getElementById('enqueteBarras');
+  var totalEl    = document.getElementById('enqueteTotal');
+  var enqueteId  = parseInt(widget.dataset.id, 10);
+
+  // Verifica se já votou (localStorage por enquete)
+  var chave = 'enquete_' + enqueteId;
+  if (localStorage.getItem(chave)) {
+    form.style.display = 'none';
+    msgEl.textContent = 'Você já votou nesta enquete. Confira os resultados:';
+    carregarResultado();
+    return;
+  }
+
+  function renderBarras(dados) {
+    barrasEl.innerHTML = '';
+    dados.opcoes.forEach(function(op) {
+      var item = document.createElement('div');
+      item.className = 'enquete-barra-item';
+      item.innerHTML =
+        '<div class="enquete-barra-label">' +
+          '<span>' + op.texto + '</span>' +
+          '<span>' + op.votos + ' voto' + (op.votos !== 1 ? 's' : '') + ' &mdash; ' + op.pct + '%</span>' +
+        '</div>' +
+        '<div class="enquete-barra-track">' +
+          '<div class="enquete-barra-fill" style="width:0%"></div>' +
+        '</div>';
+      barrasEl.appendChild(item);
+      // Aciona animação depois de inserir no DOM
+      setTimeout(function() {
+        item.querySelector('.enquete-barra-fill').style.width = op.pct + '%';
+      }, 50);
+    });
+    totalEl.textContent = 'Total: ' + dados.total + ' voto' + (dados.total !== 1 ? 's' : '');
+    form.style.display = 'none';
+    resultado.style.display = 'flex';
+  }
+
+  function carregarResultado() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'vote.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var resp = JSON.parse(xhr.responseText);
+          if (resp.ok) renderBarras(resp.resultado);
+        } catch(e) {}
+      }
+    };
+    // Envia opcao_id=0 para forçar retorno dos resultados via já_votou
+    xhr.send('enquete_id=' + enqueteId + '&opcao_id=0');
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var selecionada = form.querySelector('input[name="opcao"]:checked');
+    if (!selecionada) return;
+
+    var btnVotar = form.querySelector('button[type="submit"]');
+    btnVotar.disabled = true;
+    btnVotar.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'vote.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      btnVotar.disabled = false;
+      btnVotar.innerHTML = '<i class="fa-solid fa-check-to-slot"></i> Votar';
+
+      if (xhr.status === 200) {
+        try {
+          var resp = JSON.parse(xhr.responseText);
+          if (resp.ok) {
+            localStorage.setItem(chave, '1');
+            if (resp.ja_votou) {
+              msgEl.textContent = 'Você já votou nesta enquete. Obrigado!';
+            } else {
+              msgEl.textContent = 'Obrigado pelo seu voto!';
+            }
+            renderBarras(resp.resultado);
+          } else {
+            alert('Não foi possível registrar o voto. Tente novamente.');
+          }
+        } catch(e) {
+          alert('Erro ao processar resposta.');
+        }
+      } else {
+        alert('Erro de conexão. Tente novamente.');
+      }
+    };
+    xhr.onerror = function() {
+      btnVotar.disabled = false;
+      btnVotar.innerHTML = '<i class="fa-solid fa-check-to-slot"></i> Votar';
+      alert('Erro de conexão. Tente novamente.');
+    };
+    xhr.send('enquete_id=' + enqueteId + '&opcao_id=' + selecionada.value);
+  });
+})();
+
+/* ============================================================
    Validação client-side do formulário de agendamento
    ============================================================ */
 (function initForm() {

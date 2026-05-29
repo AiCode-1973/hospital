@@ -42,6 +42,23 @@ try {
     );
     $aviso = $stmtAv ? $stmtAv->fetch() : null;
 
+    // Enquete ativa (mais recente)
+    $enquete = null;
+    $enqueteOpcoes = [];
+    $stmtEnq = $pdo->query(
+        'SELECT id, titulo, descricao FROM enquetes WHERE ativo = 1 ORDER BY criado_em DESC LIMIT 1'
+    );
+    if ($stmtEnq) {
+        $enquete = $stmtEnq->fetch();
+        if ($enquete) {
+            $stmtOp = $pdo->prepare(
+                'SELECT id, texto FROM enquete_opcoes WHERE enquete_id = ? ORDER BY ordem, id'
+            );
+            $stmtOp->execute([$enquete['id']]);
+            $enqueteOpcoes = $stmtOp->fetchAll();
+        }
+    }
+
 } catch (PDOException $e) {
     error_log('Erro ao carregar dados: ' . $e->getMessage());
 }
@@ -414,6 +431,53 @@ function initials(string $name): string {
     <?php endif; ?>
   </div>
 </section>
+
+<!-- ============================================================
+     ENQUETE
+     ============================================================ -->
+<?php if ($enquete && !empty($enqueteOpcoes)): ?>
+<section id="enquete" aria-label="Enquete de satisfação">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2><?= esc($enquete['titulo']) ?></h2>
+      <?php if ($enquete['descricao']): ?>
+      <p><?= esc($enquete['descricao']) ?></p>
+      <?php endif; ?>
+    </div>
+    <div class="section-divider reveal"></div>
+
+    <div class="enquete-card reveal" id="enqueteWidget"
+         data-id="<?= $enquete['id'] ?>">
+
+      <!-- Formulário de votação -->
+      <form class="enquete-form" id="enqueteForm">
+        <div class="enquete-opcoes">
+          <?php foreach ($enqueteOpcoes as $op): ?>
+          <label class="enquete-opcao">
+            <input type="radio" name="opcao" value="<?= $op['id'] ?>" required>
+            <span class="opcao-label">
+              <span class="opcao-radio-custom"></span>
+              <?= esc($op['texto']) ?>
+            </span>
+          </label>
+          <?php endforeach; ?>
+        </div>
+        <button type="submit" class="btn btn-primary btn-enquete">
+          <i class="fa-solid fa-check-to-slot"></i> Votar
+        </button>
+      </form>
+
+      <!-- Resultado (oculto inicialmente) -->
+      <div class="enquete-resultado" id="enqueteResultado" style="display:none;">
+        <p class="enquete-obrigado" id="enqueteMsg"></p>
+        <div class="enquete-barras" id="enqueteBarras"></div>
+        <p class="enquete-total" id="enqueteTotal"></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <!-- ============================================================
      MAPA
