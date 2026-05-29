@@ -10,8 +10,9 @@ try {
     $med  = (int) $pdo->query('SELECT COUNT(*) FROM medicos        WHERE ativo = 1')->fetchColumn();
     $conv = (int) $pdo->query('SELECT COUNT(*) FROM convenios      WHERE ativo = 1')->fetchColumn();
     $dep  = (int) $pdo->query('SELECT COUNT(*) FROM depoimentos    WHERE ativo = 1')->fetchColumn();
+    $avi  = (int) $pdo->query('SELECT COUNT(*) FROM avisos         WHERE ativo = 1')->fetchColumn();
 } catch (\PDOException $e) {
-    $esp = $med = $conv = $dep = 0;
+    $esp = $med = $conv = $dep = $avi = 0;
 }
 
 $pageTitle = 'Dashboard';
@@ -45,6 +46,13 @@ require_once __DIR__ . '/_header.php';
     <div>
       <strong><?= $dep ?></strong>
       <span>Depoimentos ativos</span>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon red"><i class="fa-solid fa-bell"></i></div>
+    <div>
+      <strong><?= $avi ?></strong>
+      <span>Avisos ativos</span>
     </div>
   </div>
 </div>

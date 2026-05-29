@@ -6,6 +6,57 @@
 'use strict';
 
 /* ============================================================
+   Modal de Aviso
+   ============================================================ */
+(function initModal() {
+  const overlay = document.getElementById('modalAviso');
+  if (!overlay) return;
+
+  const btnAbrir  = document.getElementById('btnAbrirAviso');
+  const btnFechar = document.getElementById('modalAvisoFechar');
+
+  function abrir() {
+    overlay.classList.remove('modal-hidden');
+    overlay.style.display = '';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function fechar() {
+    overlay.classList.add('modal-hidden');
+    document.body.style.overflow = '';
+    // guarda na sessão para não reabrir automaticamente
+    try { sessionStorage.setItem('aviso_visto', '1'); } catch(e) {}
+  }
+
+  // Botão fechar
+  if (btnFechar) btnFechar.addEventListener('click', fechar);
+
+  // Botão no hero
+  if (btnAbrir) btnAbrir.addEventListener('click', abrir);
+
+  // Fechar ao clicar no overlay (fora da caixa)
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) fechar();
+  });
+
+  // Fechar com ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !overlay.classList.contains('modal-hidden')) fechar();
+  });
+
+  // Auto-abrir se configurado e não foi visto nesta sessão
+  var autoAbrir = overlay.dataset.auto === '1';
+  var jaVisto   = false;
+  try { jaVisto = sessionStorage.getItem('aviso_visto') === '1'; } catch(e) {}
+
+  if (autoAbrir && !jaVisto) {
+    setTimeout(abrir, 800);
+  } else {
+    overlay.classList.add('modal-hidden');
+  }
+})();
+
+/* ============================================================
    Navbar: comportamento ao scroll + menu mobile
    ============================================================ */
 (function initNavbar() {

@@ -15,6 +15,7 @@ $especialidades = [];
 $medicos        = [];
 $convenios      = [];
 $depoimentos    = [];
+$aviso          = null;
 
 try {
     $pdo = getDB();
@@ -34,6 +35,12 @@ try {
     $depoimentos = $pdo->query(
         'SELECT id, nome, texto, avaliacao, data FROM depoimentos WHERE ativo = 1 ORDER BY data DESC LIMIT 6'
     )->fetchAll();
+
+    // Aviso ativo para o modal (apenas o mais recente)
+    $stmtAv = $pdo->query(
+        'SELECT id, titulo, conteudo, tipo, arquivo, exibir_auto FROM avisos WHERE ativo = 1 ORDER BY criado_em DESC LIMIT 1'
+    );
+    $aviso = $stmtAv ? $stmtAv->fetch() : null;
 
 } catch (PDOException $e) {
     error_log('Erro ao carregar dados: ' . $e->getMessage());
@@ -155,6 +162,12 @@ function initials(string $name): string {
           <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           Saiba Mais
         </a>
+        <?php if ($aviso): ?>
+        <button type="button" class="btn btn-aviso btn-lg" id="btnAbrirAviso" aria-haspopup="dialog">
+          <i class="fa-solid fa-bell" aria-hidden="true"></i>
+          <?= esc($aviso['titulo']) ?>
+        </button>
+        <?php endif; ?>
       </div>
 
       <div class="hero-stats">
@@ -504,6 +517,61 @@ function initials(string $name): string {
     </div>
   </div>
 </footer>
+
+<?php if ($aviso): ?>
+<!-- ============================================================
+     MODAL DE AVISO
+     ============================================================ -->
+<div
+  id="modalAviso"
+  class="modal-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalAvisoTitulo"
+  data-auto="<?= $aviso['exibir_auto'] ? '1' : '0' ?>"
+  style="display:none;"
+>
+  <div class="modal-box">
+    <button class="modal-close" id="modalAvisoFechar" aria-label="Fechar aviso">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="modal-header">
+      <i class="fa-solid fa-bell modal-icon"></i>
+      <h2 id="modalAvisoTitulo"><?= esc($aviso['titulo']) ?></h2>
+    </div>
+
+    <div class="modal-body">
+      <?php if ($aviso['tipo'] === 'texto'): ?>
+        <div class="modal-text"><?= nl2br(esc($aviso['conteudo'] ?? '')) ?></div>
+
+      <?php elseif ($aviso['tipo'] === 'imagem' && $aviso['arquivo']): ?>
+        <img
+          src="uploads/avisos/<?= esc($aviso['arquivo']) ?>"
+          alt="<?= esc($aviso['titulo']) ?>"
+          class="modal-img"
+          loading="lazy"
+        >
+
+      <?php elseif ($aviso['tipo'] === 'documento' && $aviso['arquivo']): ?>
+        <div class="modal-doc">
+          <i class="fa-solid fa-file-pdf modal-doc-icon"></i>
+          <p><?= nl2br(esc($aviso['conteudo'] ?? '')) ?></p>
+          <a
+            href="uploads/avisos/<?= esc($aviso['arquivo']) ?>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            <i class="fa-solid fa-file-arrow-down"></i>
+            Abrir / Baixar Documento
+          </a>
+        </div>
+      <?php endif; ?>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
 
 <!-- WhatsApp flutuante -->
 <a

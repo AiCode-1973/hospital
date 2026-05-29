@@ -1,0 +1,6 @@
+# Impede execução de PHP nesta pasta
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+Options -Indexes

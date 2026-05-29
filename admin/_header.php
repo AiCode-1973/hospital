@@ -52,6 +52,11 @@ $flash = getFlash();
         <i class="fa-solid fa-comment-dots"></i> Depoimentos
       </a>
 
+      <a href="avisos.php"
+         class="<?= basename($_SERVER['PHP_SELF']) === 'avisos.php' ? 'active' : '' ?>">
+        <i class="fa-solid fa-bell"></i> Avisos / Modal
+      </a>
+
       <div class="nav-section">Conta</div>
       <a href="senha.php"
          class="<?= basename($_SERVER['PHP_SELF']) === 'senha.php' ? 'active' : '' ?>">
