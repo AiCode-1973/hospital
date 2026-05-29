@@ -432,7 +432,7 @@ function initials(string $name): string {
           há mais de 25 anos.
         </p>
         <div class="footer-social" aria-label="Redes sociais">
-          <a href="#" aria-label="Facebook"  target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.facebook.com/hospitalsantoexpedito.santos" aria-label="Facebook"  target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/hospitalsantoexpedito.apas?igsh=MXg5cHI1bHE4YXBvMg==" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
           
         </div>
